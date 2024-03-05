@@ -1,6 +1,6 @@
 # nancy-stock
 
-***Functional Description:***
+***Functional Description:*** \
 Pelosi Stock Trader will track Nancy Pelosi's stock trades by listening to data from an external source, and perform the same trades based on a percentage of capital using the users stock trading account
 
 ***Goals / Milestones:***

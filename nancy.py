@@ -1,10 +1,10 @@
-import csv, json, zipfile, os
-import requests, PyPDF2, fitz
+import csv, zipfile, os
+import requests
 from PyPDF2 import PdfReader
 
 zip_file_url = 'https://disclosures-clerk.house.gov/public_disc/financial-pdfs/2024FD.zip'
 pdf_file_url = 'https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2024/'
-member = 'Pelosi'
+member = 'Allen'
 r = requests.get(zip_file_url)
 zipfile_name = '2024.zip'
 
@@ -38,8 +38,6 @@ for file in directory:
         os.remove(file)
 
 # Open pdf
-ticker_start = []
-ticker_end = []
 tickers = []
 directory = os.listdir(f'./{member}_disclosures')
 for pdf in directory:
@@ -48,7 +46,9 @@ for pdf in directory:
       number_of_pages = len(reader.pages)
       page = reader.pages[0]
       text = page.extract_text()
-      for index, char in csv.reader(text, delimiter='\t'):
-        if char == '(': ticker_start.push(index)
-        if char == ')': ticker_end.push(index);
-            
+      words = text.split(' ')
+      for word in words:
+        if word.startswith('(') and ')' in word:
+            tickers.append(word.partition(')')[0][1:])
+
+print(tickers)
